@@ -7,7 +7,7 @@ from seven_wonders.Deck import Deck
 
 class TestDeck(unittest.TestCase):
     def test_init(self):
-        deck = Deck()
+        deck = Deck(num_players=7)
         cards = deck.cards
 
         first_card = cards[0]
@@ -23,6 +23,7 @@ class TestDeck(unittest.TestCase):
         self.assertEqual(first_card.science, Science())
 
         another_card = cards[42]
+
         self.assertEqual(another_card.name, 'Guard Tower')
         self.assertEqual(another_card.min_players, 4)
         self.assertEqual(another_card.age, 1)
@@ -31,7 +32,19 @@ class TestDeck(unittest.TestCase):
         self.assertEqual(another_card.resources, ResourceOptions(ResourceOption()))
         self.assertEqual(another_card.cost, ResourceOptions(ResourceOption(clay=1)))
         self.assertEqual(another_card.shields, 1)
-        self.assertEqual(another_card.science, Science())        
+        self.assertEqual(another_card.science, Science())
+
+    def test_deck_size(self):
+        for num_players in range(3, 8):
+            deck = Deck(num_players=num_players)
+            cards = deck.cards
+            self.assertEqual(len(cards), 7 * num_players * 3)
+
+    def test_guild_cards(self):
+        for num_players in range(3, 8):
+            deck = Deck(num_players=num_players)
+            guild_cards = [card for card in deck.cards if card.type == 'guild']
+            self.assertEqual(len(guild_cards), num_players + 2)
 
 if __name__ == '__main__':
     unittest.main()

@@ -17,4 +17,4 @@ class Card():
         self.science = science
 
     def __repr__(self):
-        return f"Card(name={self.name}, min_players={self.min_players}, age={self.age}, type={self.type}, victory_points={self.victory_points}, resources={self.resources}, cost={self.cost}, shields={self.shields}, science={self.science})"
+        return f"Card(name={self.name!r}, min_players={self.min_players}, age={self.age}, type={self.type!r}, victory_points={self.victory_points}, resources={self.resources}, cost={self.cost}, shields={self.shields}, science={self.science})"

@@ -6,11 +6,26 @@ from seven_wonders.helpers import parse_string_to_resource, parse_string_to_scie
 import pandas as pd
 
 class Deck():
-    def __init__(self, players: int=3):
+    def __init__(self, num_players: int=3):
         self.cards = []
+        self.num_players = num_players
+        self.num_guild_cards = self.num_players + 2
         self.load_cards()
 
     def load_cards(self):
         df = pd.read_excel('resources/cards.xlsx')
+        df = self.trim_deck_to_player_count(df)
+        df = self.choose_guild_cards(df)
         for card in df.itertuples():
             self.cards.append(Card(name=card.name, min_players=card.min_players, age=card.age, type=parse_card_type(card.type), victory_points=card.victory_points, resources=parse_string_to_resource(card.resources), cost=parse_string_to_resource(card.cost), shields=card.shields, science=parse_string_to_science(card.science)))
+
+    def trim_deck_to_player_count(self, df):
+        df = df[df.min_players <= self.num_players]
+        return df
+
+    def choose_guild_cards(self, df):
+        guild_cards = df[df.type == 'Guild']
+        guild_cards = guild_cards.sample(n=self.num_guild_cards, replace=False)
+        df = df[df.type != 'Guild']
+        df = pd.concat([df, guild_cards])
+        return df
