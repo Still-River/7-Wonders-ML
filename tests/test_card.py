@@ -17,7 +17,7 @@ class TestCard(unittest.TestCase):
             self.assertEqual(card.victory_points, 0)
             self.assertEqual(card.resources, ResourceOptions(ResourceOption(wood=1)))
             self.assertEqual(card.cost, ResourceOptions(ResourceOption()))
-            self.assertEqual(card.shileds, 0)
+            self.assertEqual(card.shields, 0)
             self.assertEqual(card.science, Science())
 
         with self.subTest("Scientific Structure"):
@@ -30,7 +30,7 @@ class TestCard(unittest.TestCase):
             self.assertEqual(card.victory_points, 0)
             self.assertEqual(card.resources, ResourceOptions(ResourceOption()))
             self.assertEqual(card.cost, ResourceOptions(ResourceOption(textile=1)))
-            self.assertEqual(card.shileds, 0)
+            self.assertEqual(card.shields, 0)
             self.assertEqual(card.science, Science(tablet=1))
 
         with self.subTest("Civilian Structure"):
@@ -43,11 +43,11 @@ class TestCard(unittest.TestCase):
             self.assertEqual(card.victory_points, 3)
             self.assertEqual(card.resources, ResourceOptions(ResourceOption()))
             self.assertEqual(card.cost, ResourceOptions(ResourceOption()))
-            self.assertEqual(card.shileds, 0)
+            self.assertEqual(card.shields, 0)
             self.assertEqual(card.science, Science())
 
         with self.subTest("Military Structure"):
-            card = Card(name="Stockade", min_players=3, age=1, type='military_structure', shileds=1, cost=ResourceOptions(ResourceOption(wood=1)))
+            card = Card(name="Stockade", min_players=3, age=1, type='military_structure', shields=1, cost=ResourceOptions(ResourceOption(wood=1)))
 
             self.assertEqual(card.name, 'Stockade')
             self.assertEqual(card.min_players, 3)
@@ -56,7 +56,7 @@ class TestCard(unittest.TestCase):
             self.assertEqual(card.victory_points, 0)
             self.assertEqual(card.resources, ResourceOptions(ResourceOption()))
             self.assertEqual(card.cost, ResourceOptions(ResourceOption(wood=1)))
-            self.assertEqual(card.shileds, 1)
+            self.assertEqual(card.shields, 1)
             self.assertEqual(card.science, Science())
 
 if __name__ == '__main__':
