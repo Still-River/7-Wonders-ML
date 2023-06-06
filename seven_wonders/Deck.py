@@ -10,7 +10,11 @@ class Deck():
         self.cards = []
         self.num_players = num_players
         self.num_guild_cards = self.num_players + 2
+        self.prepare_deck()
+
+    def prepare_deck(self):
         self.load_cards()
+        self.split_into_ages()
 
     def load_cards(self):
         df = pd.read_excel('resources/cards.xlsx')
@@ -29,3 +33,15 @@ class Deck():
         df = df[df.type != 'Guild']
         df = pd.concat([df, guild_cards])
         return df
+    
+    def split_into_ages(self):
+        self.age1 = []
+        self.age2 = []
+        self.age3 = []
+        for card in self.cards:
+            if card.age == 1:
+                self.age1.append(card)
+            elif card.age == 2:
+                self.age2.append(card)
+            else:
+                self.age3.append(card)

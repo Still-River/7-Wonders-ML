@@ -46,5 +46,16 @@ class TestDeck(unittest.TestCase):
             guild_cards = [card for card in deck.cards if card.type == 'guild']
             self.assertEqual(len(guild_cards), num_players + 2)
 
+    def test_age_split(self):
+        for num_players in range(3,8):
+            deck = Deck(num_players=num_players)
+            age1 = deck.age1
+            age2 = deck.age2
+            age3 = deck.age3
+            self.assertEqual(len(age1), 7 * num_players)
+            self.assertEqual(len(age2), 7 * num_players)
+            self.assertEqual(len(age3), 7 * num_players)
+            
+
 if __name__ == '__main__':
     unittest.main()
