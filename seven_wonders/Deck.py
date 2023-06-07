@@ -17,7 +17,7 @@ class Deck():
         self.split_into_ages()
 
     def load_cards(self):
-        df = pd.read_excel('resources/cards.xlsx')
+        df = pd.read_excel('resources/cards.xlsx', engine='openpyxl')
         df = self.trim_deck_to_player_count(df)
         df = self.choose_guild_cards(df)
         for card in df.itertuples():
