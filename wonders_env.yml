@@ -1,0 +1,6 @@
+name: wonders
+dependencies:
+  - pandas
+  - openpyxl
+  - pytest
+  - coverage
