@@ -1,0 +1,10 @@
+# .coveragerc to control coverage.py
+
+[run]
+branch = True
+
+[report]
+exclude_also = 
+    def __repr__
+    if __name__ == '__main__':
+    return NotImplemented

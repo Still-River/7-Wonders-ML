@@ -3,6 +3,7 @@ from seven_wonders.Science import Science
 from seven_wonders.Card import Card
 from seven_wonders.helpers import parse_string_to_resource, parse_string_to_science, parse_card_type
 
+import random
 import pandas as pd
 
 class Deck():
@@ -15,6 +16,7 @@ class Deck():
     def prepare_deck(self):
         self.load_cards()
         self.split_into_ages()
+        self.shuffle()
 
     def load_cards(self):
         df = pd.read_excel('resources/cards.xlsx', engine='openpyxl')
@@ -45,3 +47,13 @@ class Deck():
                 self.age2.append(card)
             else:
                 self.age3.append(card)
+
+    def shuffle(self, seed=None):
+        if seed:
+            self.load_cards()
+            self.split_into_ages()
+            random.seed(seed)
+
+        random.shuffle(self.age1)
+        random.shuffle(self.age2)
+        random.shuffle(self.age3)
