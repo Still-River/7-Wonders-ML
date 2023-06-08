@@ -19,6 +19,16 @@ class TestResourceOptions(unittest.TestCase):
 
         self.assertEqual(combined, combined_expected)
 
+    def test_add_single_option(self):
+        option1 = ResourceOptions(ResourceOption(wood=1))
+        option2 = ResourceOption(wood=1)
+
+        combined = option1 + option2
+
+        combined_expected = ResourceOptions(ResourceOption(wood=2))
+
+        self.assertEqual(combined, combined_expected)
+
     def test_add_multiple_options(self):
         option1 = ResourceOptions(ResourceOption(wood=1))
         option2 = ResourceOptions(ResourceOption(wood=1), ResourceOption(ore=1))
