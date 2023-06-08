@@ -56,6 +56,17 @@ class TestDeck(unittest.TestCase):
             self.assertEqual(len(age2), 7 * num_players)
             self.assertEqual(len(age3), 7 * num_players)
             
+    def test_shuffle(self):
+        deck = Deck(num_players=3)
+        deck.shuffle(seed=42)
+
+        self.assertEqual(deck.age1[0].name, 'Baths')
+        self.assertEqual(deck.age1[5].name, 'Apothecary')
+        self.assertEqual(deck.age2[0].name, 'Vineyard')
+        self.assertEqual(deck.age2[15].name, 'Caravansery')
+        self.assertEqual(deck.age2[-1].name, 'Quarry')
+        self.assertEqual(deck.age3[0].name, 'Patheon')
+        self.assertEqual(deck.age3[-1].name, 'Siege Workshop')
 
 if __name__ == '__main__':
     unittest.main()
