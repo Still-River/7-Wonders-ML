@@ -7,66 +7,71 @@ from seven_wonders.Deck import Deck
 
 class TestDeck(unittest.TestCase):
     def test_init(self):
-        deck = Deck(num_players=7)
-        cards = deck.cards
+        deck = Deck(num_players=7, seed=42)
 
-        first_card = cards[0]
+        age1_card = deck[0][14]
         
-        self.assertEqual(first_card.name, 'Lumber Yard')
-        self.assertEqual(first_card.min_players, 3)
-        self.assertEqual(first_card.age, 1)
-        self.assertEqual(first_card.type, 'raw_material')
-        self.assertEqual(first_card.victory_points, 0)
-        self.assertEqual(first_card.resources, ResourceOptions(ResourceOption(wood=1)))
-        self.assertEqual(first_card.cost, ResourceOptions(ResourceOption()))
-        self.assertEqual(first_card.shields, 0)
-        self.assertEqual(first_card.science, Science())
+        self.assertEqual(age1_card.name, 'Marketplace')
+        self.assertEqual(age1_card.min_players, 6)
+        self.assertEqual(age1_card.age, 1)
+        self.assertEqual(age1_card.type, 'commercial_structure')
+        self.assertEqual(age1_card.victory_points, 0)
+        self.assertEqual(age1_card.resources, ResourceOptions(ResourceOption()))
+        self.assertEqual(age1_card.cost, ResourceOptions(ResourceOption()))
+        self.assertEqual(age1_card.shields, 0)
+        self.assertEqual(age1_card.science, Science())
 
-        another_card = cards[42]
+        age2_card = deck[1][9]
+        self.assertEqual(age2_card.name, 'Quarry')
+        self.assertEqual(age2_card.min_players, 4)
+        self.assertEqual(age2_card.age, 2)
+        self.assertEqual(age2_card.type, 'raw_material')
+        self.assertEqual(age2_card.victory_points, 0)
+        self.assertEqual(age2_card.resources, ResourceOptions(ResourceOption(stone=2)))
+        self.assertEqual(age2_card.cost, ResourceOptions(ResourceOption(coin=1)))
+        self.assertEqual(age2_card.shields, 0)
+        self.assertEqual(age2_card.science, Science())
 
-        self.assertEqual(another_card.name, 'Guard Tower')
-        self.assertEqual(another_card.min_players, 4)
-        self.assertEqual(another_card.age, 1)
-        self.assertEqual(another_card.type, 'military_structure')
-        self.assertEqual(another_card.victory_points, 0)
-        self.assertEqual(another_card.resources, ResourceOptions(ResourceOption()))
-        self.assertEqual(another_card.cost, ResourceOptions(ResourceOption(clay=1)))
-        self.assertEqual(another_card.shields, 1)
-        self.assertEqual(another_card.science, Science())
+        age3_card = deck[2][10]
+
+        self.assertEqual(age3_card.name, 'Arsenal')
+        self.assertEqual(age3_card.min_players, 4)
+        self.assertEqual(age3_card.age, 3)
+        self.assertEqual(age3_card.type, 'military_structure')
+        self.assertEqual(age3_card.victory_points, 0)
+        self.assertEqual(age3_card.resources, ResourceOptions(ResourceOption()))
+        self.assertEqual(age3_card.cost, ResourceOptions(ResourceOption(wood=2, ore=1, textile=1)))
+        self.assertEqual(age3_card.shields, 3)
+        self.assertEqual(age3_card.science, Science())
 
     def test_deck_size(self):
         for num_players in range(3, 8):
             deck = Deck(num_players=num_players)
-            cards = deck.cards
-            self.assertEqual(len(cards), 7 * num_players * 3)
+            len_cards = len(deck[0]) + len(deck[1]) + len(deck[2])
+            self.assertEqual(len_cards, 7 * num_players * 3)
 
     def test_guild_cards(self):
         for num_players in range(3, 8):
             deck = Deck(num_players=num_players)
-            guild_cards = [card for card in deck.cards if card.type == 'guild']
+            guild_cards = [card for card in deck[2] if card.type == 'guild']
             self.assertEqual(len(guild_cards), num_players + 2)
 
     def test_age_split(self):
         for num_players in range(3,8):
             deck = Deck(num_players=num_players)
-            age1 = deck.age1
-            age2 = deck.age2
-            age3 = deck.age3
-            self.assertEqual(len(age1), 7 * num_players)
-            self.assertEqual(len(age2), 7 * num_players)
-            self.assertEqual(len(age3), 7 * num_players)
+            for age in deck:
+                self.assertEqual(len(age), 7 * num_players)
             
     def test_shuffle(self):
-        deck = Deck(num_players=3)
-        deck.shuffle(seed=42)
+        deck = Deck(num_players=7, seed=42)
 
-        self.assertEqual(deck.age1[0].name, 'Baths')
-        self.assertEqual(deck.age1[5].name, 'Apothecary')
-        self.assertEqual(deck.age2[0].name, 'Vineyard')
-        self.assertEqual(deck.age2[15].name, 'Caravansery')
-        self.assertEqual(deck.age2[-1].name, 'Quarry')
-        self.assertEqual(deck.age3[0].name, 'Patheon')
-        self.assertEqual(deck.age3[-1].name, 'Siege Workshop')
+        self.assertEqual(deck[0][0].name, 'Altar')
+        self.assertEqual(deck[0][5].name, 'Apothecary')
+        self.assertEqual(deck[1][0].name, 'Bazar')
+        self.assertEqual(deck[1][15].name, 'School')
+        self.assertEqual(deck[1][-1].name, 'Training Ground')
+        self.assertEqual(deck[2][0].name, 'Circus')
+        self.assertEqual(deck[2][-1].name, 'Lighthouse')
 
 if __name__ == '__main__':
     unittest.main()

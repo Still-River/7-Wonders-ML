@@ -2,6 +2,7 @@
 
 [run]
 branch = True
+command_line = -m pytest
 
 [report]
 exclude_also = 

@@ -7,8 +7,11 @@ import random
 import pandas as pd
 
 class Deck():
-    def __init__(self, num_players: int=3):
-        self.cards = []
+    def __init__(self, num_players: int=3, seed: int=None):
+        if seed:
+            random.seed(seed)
+        
+        self.all_cards = []
         self.num_players = num_players
         self.num_guild_cards = self.num_players + 2
         self.prepare_deck()
@@ -23,7 +26,7 @@ class Deck():
         df = self.trim_deck_to_player_count(df)
         df = self.choose_guild_cards(df)
         for card in df.itertuples():
-            self.cards.append(Card(name=card.name, min_players=card.min_players, age=card.age, type=parse_card_type(card.type), victory_points=card.victory_points, resources=parse_string_to_resource(card.resources), cost=parse_string_to_resource(card.cost), shields=card.shields, science=parse_string_to_science(card.science)))
+            self.all_cards.append(Card(name=card.name, min_players=card.min_players, age=card.age, type=parse_card_type(card.type), victory_points=card.victory_points, resources=parse_string_to_resource(card.resources), cost=parse_string_to_resource(card.cost), shields=card.shields, science=parse_string_to_science(card.science)))
 
     def trim_deck_to_player_count(self, df):
         df = df[df.min_players <= self.num_players]
@@ -37,23 +40,13 @@ class Deck():
         return df
     
     def split_into_ages(self):
-        self.age1 = []
-        self.age2 = []
-        self.age3 = []
-        for card in self.cards:
-            if card.age == 1:
-                self.age1.append(card)
-            elif card.age == 2:
-                self.age2.append(card)
-            else:
-                self.age3.append(card)
+        self.cards = [[], [], []]
+        for card in self.all_cards:
+            self.cards[card.age - 1].append(card)
 
-    def shuffle(self, seed=None):
-        if seed:
-            self.load_cards()
-            self.split_into_ages()
-            random.seed(seed)
+    def shuffle(self):
+        for age in self.cards:
+            random.shuffle(age)
 
-        random.shuffle(self.age1)
-        random.shuffle(self.age2)
-        random.shuffle(self.age3)
+    def __getitem__(self, key):
+        return self.cards[key]
