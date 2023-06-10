@@ -56,5 +56,13 @@ class TestScience(unittest.TestCase):
 
             self.assertEqual(points, 9)
 
+    def test_str(self):
+        science = Science(tablet=1)
+        self.assertEqual(str(science), "1 tablet")
+        science = Science(tablet=1, gear=1)
+        self.assertEqual(str(science), "1 tablet, 1 gear")
+        science = Science(tablet=1, gear=1, compass=1)
+        self.assertEqual(str(science), "1 tablet, 1 gear, 1 compass")
+
 if __name__ == '__main__':
     unittest.main()

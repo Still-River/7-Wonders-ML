@@ -44,5 +44,15 @@ class TestResourceOptions(unittest.TestCase):
 
         self.assertCountEqual(combined, combined_expected)
 
+    def test_str(self):
+        option1 = ResourceOptions(ResourceOption(wood=1))
+        option2 = ResourceOptions(ResourceOption(wood=1), ResourceOption(ore=1))
+
+        combined = option1 + option2
+
+        self.assertEqual(str(combined), "[2 wood] or [1 wood, 1 ore]")
+
+        option3 = ResourceOptions(ResourceOption(stone=1), ResourceOption(clay=1))
+
 if __name__ == '__main__':
     unittest.main()

@@ -31,6 +31,9 @@ class ResourceOption():
                     and self.textile == other.textile and self.coin == other.coin)
         else:
             return NotImplemented
+        
+    def __str__(self):
+        return ', '.join([f"{value} {resource}" for resource, value in self.__dict__.items() if value != 0])
 
 class ResourceOptions():
     def __init__(self, *options: ResourceOption):
@@ -55,6 +58,9 @@ class ResourceOptions():
         
     def __iter__(self):
         return iter(self.options)
+    
+    def __str__(self):
+        return ' or '.join(["[" + str(option) + "]" for option in self.options])
     
 if __name__ == '__main__':
     option1 = ResourceOptions(ResourceOption(wood=1))

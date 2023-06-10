@@ -19,3 +19,6 @@ class Science():
     
     def calculate_points(self):
         return self.tablet**2 + self.gear**2 + self.compass**2 + 7 * min(self.tablet, self.gear, self.compass)
+    
+    def __str__(self):
+        return ', '.join([f"{value} {resource}" for resource, value in self.__dict__.items() if value != 0])
