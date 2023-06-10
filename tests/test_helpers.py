@@ -1,6 +1,6 @@
 from seven_wonders.Resources import ResourceOptions, ResourceOption
 from seven_wonders.Science import Science
-from seven_wonders.helpers import parse_string_to_resource, parse_string_to_science, parse_card_type
+from seven_wonders.helpers import parse_string_to_resource, parse_string_to_science, parse_card_type, card_type_to_color
 
 import unittest
 
@@ -46,6 +46,15 @@ class TestHelpers(unittest.TestCase):
         with self.subTest('Valid Card Type'):
             self.assertEqual(parse_card_type('guild'), 'guild')
 
+    def test_card_type_to_string(self):
+        with self.subTest('Invalid Card Type'):
+            self.assertRaises(ValueError, card_type_to_color, 'invalid')
+
+        with self.subTest('Valid Card Type'):
+            self.assertEqual(card_type_to_color('guild'), '\033[35m')
+
+        with self.subTest('Reset Card Type'):
+            self.assertEqual(card_type_to_color('reset'), '\033[0m')
 
 if __name__ == '__main__':
     unittest.main()

@@ -8,7 +8,8 @@ import pandas as pd
 
 class Deck():
     def __init__(self, num_players: int=3, seed: int=None):
-        if seed:
+        self.seed = seed
+        if self.seed:
             random.seed(seed)
         
         self.all_cards = []
@@ -34,7 +35,7 @@ class Deck():
 
     def choose_guild_cards(self, df):
         guild_cards = df[df.type == 'Guild']
-        guild_cards = guild_cards.sample(n=self.num_guild_cards, replace=False)
+        guild_cards = guild_cards.sample(n=self.num_guild_cards, replace=False, random_state=self.seed)
         df = df[df.type != 'Guild']
         df = pd.concat([df, guild_cards])
         return df
