@@ -9,6 +9,7 @@ import pandas as pd
 class Deck():
     def __init__(self, num_players: int=3, seed: int=None):
         if seed:
+            self.seed = seed
             random.seed(seed)
         
         self.all_cards = []
@@ -24,7 +25,7 @@ class Deck():
     def load_cards(self):
         df = pd.read_excel('resources/cards.xlsx', engine='openpyxl')
         df = self.trim_deck_to_player_count(df)
-        df = self.choose_guild_cards(df)
+        df = self.choose_guild_cards(df, random_state=self.seed)
         for card in df.itertuples():
             self.all_cards.append(Card(name=card.name, min_players=card.min_players, age=card.age, type=parse_card_type(card.type), victory_points=card.victory_points, resources=parse_string_to_resource(card.resources), cost=parse_string_to_resource(card.cost), shields=card.shields, science=parse_string_to_science(card.science)))
 
@@ -32,9 +33,9 @@ class Deck():
         df = df[df.min_players <= self.num_players]
         return df
 
-    def choose_guild_cards(self, df):
+    def choose_guild_cards(self, df, random_state=None):
         guild_cards = df[df.type == 'Guild']
-        guild_cards = guild_cards.sample(n=self.num_guild_cards, replace=False)
+        guild_cards = guild_cards.sample(n=self.num_guild_cards, replace=False, random_state=random_state)
         df = df[df.type != 'Guild']
         df = pd.concat([df, guild_cards])
         return df

@@ -19,6 +19,7 @@ class TestCard(unittest.TestCase):
             self.assertEqual(card.cost, ResourceOptions(ResourceOption()))
             self.assertEqual(card.shields, 0)
             self.assertEqual(card.science, Science())
+            self.assertEqual(card.important_attribute(), "Resources: [1 wood]")
 
         with self.subTest("Scientific Structure"):
             card = Card(name="Apothecary", min_players=3, age=1, type='scientific_structure', science=Science(tablet=1), cost=ResourceOptions(ResourceOption(textile=1)))
@@ -32,6 +33,7 @@ class TestCard(unittest.TestCase):
             self.assertEqual(card.cost, ResourceOptions(ResourceOption(textile=1)))
             self.assertEqual(card.shields, 0)
             self.assertEqual(card.science, Science(tablet=1))
+            self.assertEqual(card.important_attribute(), "Science: 1 tablet")
 
         with self.subTest("Civilian Structure"):
             card = Card(name="Pawnshop", min_players=4, age=1, type='civilian_structure', victory_points=3, cost=ResourceOptions(ResourceOption()))
@@ -45,6 +47,7 @@ class TestCard(unittest.TestCase):
             self.assertEqual(card.cost, ResourceOptions(ResourceOption()))
             self.assertEqual(card.shields, 0)
             self.assertEqual(card.science, Science())
+            self.assertEqual(card.important_attribute(), "Victory Points: 3")
 
         with self.subTest("Military Structure"):
             card = Card(name="Stockade", min_players=3, age=1, type='military_structure', shields=1, cost=ResourceOptions(ResourceOption(wood=1)))
@@ -58,6 +61,7 @@ class TestCard(unittest.TestCase):
             self.assertEqual(card.cost, ResourceOptions(ResourceOption(wood=1)))
             self.assertEqual(card.shields, 1)
             self.assertEqual(card.science, Science())
+            self.assertEqual(card.important_attribute(), "Shields: 1")
 
 if __name__ == '__main__':
     unittest.main()

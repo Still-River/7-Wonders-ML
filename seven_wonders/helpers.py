@@ -76,3 +76,43 @@ def parse_card_type(string):
         return 'guild'
     else:
         raise ValueError(f'Invalid card type: {string}.')
+    
+def card_type_to_color(string):
+    """Convert a card type to a color.
+    
+    Args:
+        string (str): The card type to convert.
+        
+    Returns:
+        str: The converted color.
+    """
+    colors = {
+        'brown': '\033[38;5;208m',
+        'gray': '\033[90m',
+        'blue': '\033[34m',
+        'green': '\033[32m',
+        'yellow': '\033[33m',
+        'red': '\033[31m',
+        'purple': '\033[35m',
+        'reset': '\033[0m'
+    }
+
+    if string == 'raw_material':
+        return colors['brown']
+    elif string == 'manufactured_good':
+        return colors['gray']
+    elif string == 'civilian_structure':
+        return colors['blue']
+    elif string == 'scientific_structure':
+        return colors['green']
+    elif string == 'commercial_structure':
+        return colors['yellow']
+    elif string == 'military_structure':
+        return colors['red']
+    elif string == 'guild':
+        return colors['purple']
+    elif string == 'reset':
+        return colors['reset']
+    else:
+        raise ValueError(f'Invalid card type: {string}.')
+    
